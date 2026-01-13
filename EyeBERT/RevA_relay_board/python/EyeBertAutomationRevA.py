@@ -1,4 +1,4 @@
-# EyeBertAutomationDev.py
+# EyeBertAutomationRevA.py
 #
 # Developed by the KU CMS group.
 #
@@ -39,7 +39,7 @@
 # - Code Repository: https://github.com/ku-cms/eLink_Instrumentation 
 
 # version
-version = 1.18
+version = 2.0
 
 from template_analysis_windows_RevA import EyeBERTFile, Reference
 from colorama import Fore, Back, Style, init
@@ -337,15 +337,17 @@ def main():
         # TODO: automatically create new calibration file name
         # Note: Make sure to use a new calibration file name; the calibration file you specify will be overwritten!
         calibration_data = {}
-        calibration_file = "4_point_DC_Calibration_RevA_v2.json"
-
+        calibration_file = input(Fore.RED + f"Please enter a new calibration json file (Example: 4_point_DC_Calibration_RevA_v2.json): " + Fore.GREEN)
         print(f"Calibration data will be saved to {calibration_file}. This file will be overwritten.")
         
         # Confirm that user wants to continue
-        user_accept = input(Fore.RED + "Would you like to continue? [y/n]: " + Fore.GREEN)
-        if user_accept.lower() == "y":
+        valid_inputs = ["y", "n"]
+        accept = input(Fore.RED + f"Do you want to proceed? (y/n): " + Fore.GREEN).lower()
+        while accept not in valid_inputs:
+            accept = input(f"The input '{accept}' is not vaild. Do you want to proceed? (y/n): ").lower()
+        if accept == "y":
             print("Proceeding with calibration. Please connect SMA through lines for each channel as instructed.")
-        else:
+        if accept == "n":
             print("Exiting...")
             print(Fore.RED + "Terminating code 3: exit based on user input.")
             sys.exit(3)
@@ -380,6 +382,36 @@ def main():
 
             # print results
             print(" - channel {0}: {1}_p = {2:.2f}, {3}_n = {4:.2f}".format(key, key, positive, key, negative))
+
+            # Ask user to accept or redo measurement
+            valid_inputs = ["y", "n"]
+            accept = input(Fore.RED + f"Please review and accept (y) or redo (n) this measurement (y/n): " + Fore.GREEN).lower()
+            while accept not in valid_inputs:
+                accept = input(f"The input '{accept}' is not vaild. Please review and accept (y) or redo (n) this measurement (y/n): ").lower()
+
+            while accept == "n":
+                user_ready = input(Fore.RED + f"Press enter when ready. " + Fore.GREEN)
+
+                # take measurements; do not subtract anything
+                eb.connection(txpath+b"\r\n")
+                eb.connection(rxpath+b"\r\n")
+                eb.LED(2,"ON")
+                eb.MODE(b"MODE DMM +\r\n")
+                positive = round(dmm.reading(),2)
+                eb.MODE(b"MODE DMM -\r\n")
+                negative = round(dmm.reading(),2)
+
+                # print results
+                print(" - channel {0}: {1}_p = {2:.2f}, {3}_n = {4:.2f}".format(key, key, positive, key, negative))
+
+                # Ask user to accept or redo measurement
+                valid_inputs = ["y", "n"]
+                accept = input(Fore.RED + f"Please review and accept (y) or redo (n) this measurement (y/n): " + Fore.GREEN).lower()
+                while accept not in valid_inputs:
+                    accept = input(f"The input '{accept}' is not vaild. Please review and accept (y) or redo (n) this measurement (y/n): ").lower()
+
+            if accept == "y":
+                print("Proceeding with calibration.")
 
             # save calibration data
             calibration_data[key + "_p"] = positive

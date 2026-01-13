@@ -29,6 +29,15 @@ def getAdapterBoardChannel(cable_type, channel):
     else:
         return channel 
 
+# get valid answer from user
+def getValidAnswer(prompt):
+    valid_answers = ["y", "n"]
+    answer = input(Fore.RED + prompt + Fore.GREEN).lower()
+    while answer not in valid_answers:
+        print(Fore.RED + f"ERROR: The answer '{answer}' is not valid; please enter one of these: {valid_answers}" + Fore.GREEN)
+        answer = input(Fore.RED + prompt + Fore.GREEN).lower()
+    return answer
+
 # print 4-point DC values
 def PrintDCValues(channel, channel_p, channel_n, value_p, value_n):
     # For values greater than or equal to this cufoff,
