@@ -69,9 +69,9 @@ def main():
     # parameters
     # TODO: let user specify parameters for what test(s) to run
     verbose                     = False
-    RUN_4PT_DC_RES_CALIBRATION  = True
-    RUN_4PT_DC_RES              = False
-    RUN_EYE_BERT_AREA           = False
+    RUN_4PT_DC_RES_CALIBRATION  = False
+    RUN_4PT_DC_RES              = True
+    RUN_EYE_BERT_AREA           = True
     pygui.PAUSE = 0.5
     
     # dictionaries to save results
