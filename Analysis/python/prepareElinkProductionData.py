@@ -8,6 +8,7 @@
 # -------------------------- #
 
 import tools
+from pathlib import Path
 
 # ---------------------------------------------
 # TODO:
@@ -36,7 +37,8 @@ def prepareElinkProductionData(excel_file, excel_sheet, download_dir, data_dir):
 def main():
     excel_file      = "Harness_Serial_Number.xlsx"
     excel_sheet     = "Production"
-    download_dir    = "/Users/caleb/Downloads"
+    home_dir        = Path.home()
+    download_dir    = f"{home_dir}/Downloads"
     data_dir        = "data"
 
     download_dir    = tools.appendSlash(download_dir)
