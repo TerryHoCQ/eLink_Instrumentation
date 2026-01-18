@@ -26,6 +26,22 @@ python3 python/prepareElinkProductionData.py
 
 ## Plot e-link production data
 
+### Method 1
+
+Use the Python script `analyzeElinkProductionPromptUser.py` to create a cumulative e-link production plot.
+```
+cd Analysis
+python3 python/analyzeElinkProductionPromptUser.py
+```
+When prompted, enter a start date (YYYY-MM-DD), an end date (YYYY-MM-DD), and an input file (.csv).
+
+To plot the entire e-link production, the start date should be `2024-04-01` (the beginning of e-link production), and the end date should be today's date (or the end of e-link production, once production is finished).
+The input file should have the form `data/Harness_Serial_Number_YYYY_MM_DD.csv`, where the date is today's date.
+
+The script should save plots in a directory called `elink_production_plots`.
+
+### Method 2
+
 Use the Python script `analyzeElinkProduction.py` to create a cumulative e-link production plot.
 Specify a start date (YYYY-MM-DD), an end date (YYYY-MM-DD), and an input file (.csv)
 using the -a, -b, and -c flags, respectively.
@@ -40,3 +56,5 @@ and the input file `data/Harness_Serial_Number_2025_08_01.csv`.
 cd Analysis
 python3 python/analyzeElinkProduction.py -a 2024-04-01 -b 2025-07-31 -c data/Harness_Serial_Number_2025_08_01.csv
 ```
+
+The script should save plots in a directory called `elink_production_plots`.
